@@ -1,0 +1,17 @@
+E:\TaskBoardAPI\TaskBoardAPI\obj\Release\netcoreapp3.1\PubTmp\Out\TaskBoardAPI.exe
+E:\TaskBoardAPI\TaskBoardAPI\obj\Release\netcoreapp3.1\PubTmp\Out\appsettings.Development.json
+E:\TaskBoardAPI\TaskBoardAPI\obj\Release\netcoreapp3.1\PubTmp\Out\appsettings.json
+E:\TaskBoardAPI\TaskBoardAPI\obj\Release\netcoreapp3.1\PubTmp\Out\TaskBoardAPI.dll
+E:\TaskBoardAPI\TaskBoardAPI\obj\Release\netcoreapp3.1\PubTmp\Out\TaskBoardAPI.deps.json
+E:\TaskBoardAPI\TaskBoardAPI\obj\Release\netcoreapp3.1\PubTmp\Out\TaskBoardAPI.runtimeconfig.json
+E:\TaskBoardAPI\TaskBoardAPI\obj\Release\netcoreapp3.1\PubTmp\Out\TaskBoardAPI.pdb
+E:\TaskBoardAPI\TaskBoardAPI\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.AspNetCore.JsonPatch.dll
+E:\TaskBoardAPI\TaskBoardAPI\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+E:\TaskBoardAPI\TaskBoardAPI\obj\Release\netcoreapp3.1\PubTmp\Out\Newtonsoft.Json.dll
+E:\TaskBoardAPI\TaskBoardAPI\obj\Release\netcoreapp3.1\PubTmp\Out\Newtonsoft.Json.Bson.dll
+E:\TaskBoardAPI\TaskBoardAPI\obj\Release\netcoreapp3.1\PubTmp\Out\System.Data.SqlClient.dll
+E:\TaskBoardAPI\TaskBoardAPI\obj\Release\netcoreapp3.1\PubTmp\Out\runtimes\win-arm64\native\sni.dll
+E:\TaskBoardAPI\TaskBoardAPI\obj\Release\netcoreapp3.1\PubTmp\Out\runtimes\win-x64\native\sni.dll
+E:\TaskBoardAPI\TaskBoardAPI\obj\Release\netcoreapp3.1\PubTmp\Out\runtimes\win-x86\native\sni.dll
+E:\TaskBoardAPI\TaskBoardAPI\obj\Release\netcoreapp3.1\PubTmp\Out\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+E:\TaskBoardAPI\TaskBoardAPI\obj\Release\netcoreapp3.1\PubTmp\Out\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
