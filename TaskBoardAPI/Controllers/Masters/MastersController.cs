@@ -58,6 +58,10 @@ namespace TaskBoardAPI.Controllers.Masters
                     new SqlParameter("HeadPerson",pub.GetString(paramList.HeadPerson)),
                     new SqlParameter("Impact",pub.GetString(paramList.Impact)),
                     new SqlParameter("Description",pub.GetString(paramList.Description)),
+                    new SqlParameter("Developers",pub.GetString(paramList.Developers)),
+                    new SqlParameter("Incharge",pub.GetString(paramList.Incharge)),
+                    new SqlParameter("Manager",pub.GetString(paramList.Manager)),
+                    new SqlParameter("Auth",pub.GetString(paramList.Auth)),
                 };
                 DataTable tblData = await SqlHelper.GetDatatableSP("Task_ProjectListCRUD", SqlHelper.ConnectionString, objparam);
 
@@ -75,8 +79,11 @@ namespace TaskBoardAPI.Controllers.Masters
             {
                 DataTable tblProject = await SqlHelper.GetDataTable("SELECT SrNo,ProjectName FROM Task_ProjectList", SqlHelper.ConnectionString);
                 DataTable tblAuth = await SqlHelper.GetDataTable("SELECT UserId [value],CONCAT(FirstName,' ',LastName) [text] FROM Task_UserList where Role='Approval Authority'", SqlHelper.ConnectionString);
+                DataTable tblDeveloper = await SqlHelper.GetDataTable("SELECT UserId [id],CONCAT(FirstName,' ',LastName) [itemName] FROM Task_UserList WHERE [Role]='Developer'", SqlHelper.ConnectionString);
+                DataTable tblManager = await SqlHelper.GetDataTable("SELECT UserId [value],CONCAT(FirstName,' ',LastName) [text] FROM Task_UserList WHERE [Role]='Manager'", SqlHelper.ConnectionString);
+                DataTable tblTaskIncharge = await SqlHelper.GetDataTable("SELECT UserId [id],CONCAT(FirstName,' ',LastName) [itemName] FROM Task_UserList WHERE [Role]='Task Incharge'", SqlHelper.ConnectionString);
 
-                var result = new { tblProject, tblAuth };
+                var result = new { tblProject, tblAuth, tblDeveloper, tblManager, tblTaskIncharge };
                 return Utilities.GenerateApiResponse(true, (int)MessageType.success, "", result);
             }
             catch (Exception ex)
