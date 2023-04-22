@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Threading.Tasks;
 using TaskBoardAPI.Utils;
 
@@ -43,6 +40,7 @@ namespace TaskBoardAPI.Controllers.Reports
                     new SqlParameter("Type","GetData"),
                     new SqlParameter("SDate",Convert.ToDateTime(paramList.SDate).ToLocalTime().ToString("MM-dd-yyyy")),
                     new SqlParameter("EDate",Convert.ToDateTime(paramList.EDate).ToLocalTime().ToString("MM-dd-yyyy")),
+                    new SqlParameter("Pending",pub.Getbool(paramList.Pending)),
                 };
                 DataSet ds = await SqlHelper.GetDataSet("Task_DatewiseTasksReport", SqlHelper.ConnectionString, CommandType.StoredProcedure, objparam);
                 var result = new { ds };
