@@ -29,6 +29,9 @@ namespace TaskBoardAPI.Controllers.Common
                     case "GETIMAGEBYID":
                         response = await GetImageById(pub.GetInt(paramList.UserId));
                         break;
+                    case "GETUSERPERMISSION":
+                        response = await GetUserpermission(pub.GetInt(paramList.UserId));
+                        break;
                 }
                 return response;
             }
@@ -87,6 +90,19 @@ namespace TaskBoardAPI.Controllers.Common
             {
                 DataTable tblData = await SqlHelper.GetDataTable("SELECT UserId,ProfileImg,CONCAT(FirstName,' ',LastName) [Name] FROM Task_UserList WHERE UserId=" + UserId, SqlHelper.ConnectionString);
                 var result = new { tblData };
+                return Utilities.GenerateApiResponse(true, (int)MessageType.success, "", result);
+            }
+            catch (Exception ex)
+            {
+                return Utilities.GenerateApiResponse(true, (int)MessageType.error, ex.Message, null);
+            }
+        }
+        private async Task<ApiResponse> GetUserpermission(int UserId)
+        {
+            try
+            {
+                DataSet ds = await SqlHelper.GetDataSet("EXEC Task_GetUserpermission @UserId = " + UserId, SqlHelper.ConnectionString);
+                var result = new { ds };
                 return Utilities.GenerateApiResponse(true, (int)MessageType.success, "", result);
             }
             catch (Exception ex)
