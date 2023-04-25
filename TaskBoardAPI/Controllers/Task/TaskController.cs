@@ -184,11 +184,12 @@ namespace TaskBoardAPI.Controllers.Task
                 tblDuration.Columns.Add("TaskID");
                 tblDuration.Columns.Add("Hours");
                 tblDuration.Columns.Add("Minutes");
+                tblDuration.Columns.Add("TotalMins");
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
                     DataTable dt = await SqlHelper.GetDataTable("EXEC Task_GetDurationByTaskId @TaskId=" + dr["id"], SqlHelper.ConnectionString);
                     if (dt.Rows.Count > 0)
-                        tblDuration.Rows.Add(pub.GetInt(dt.Rows[0]["TaskId"]), pub.GetInt(dt.Rows[0]["Hours"]), pub.GetInt(dt.Rows[0]["Minutes"]));
+                        tblDuration.Rows.Add(pub.GetInt(dt.Rows[0]["TaskId"]), pub.GetInt(dt.Rows[0]["Hours"]), pub.GetInt(dt.Rows[0]["Minutes"]), pub.GetInt(dt.Rows[0]["TotalMins"]));
                 }
                 var result = new { tblData, tblDevComments, tblDuration };
                 return Utilities.GenerateApiResponse(true, (int)MessageType.success, message, result);

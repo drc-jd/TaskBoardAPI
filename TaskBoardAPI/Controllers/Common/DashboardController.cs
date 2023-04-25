@@ -26,6 +26,9 @@ namespace TaskBoardAPI.Controllers.Common
                     case "GETDATA":
                         response = await GetData(paramList);
                         break;
+                    case "GETTASK":
+                        response = await GetTask(paramList);
+                        break;
                 }
                 return response;
             }
@@ -42,10 +45,42 @@ namespace TaskBoardAPI.Controllers.Common
                 {
                     new SqlParameter("Type","GetData"),
                     new SqlParameter("Role",pub.GetString(paramList.Role)),
-                    new SqlParameter("DeveloperId",pub.GetInt(paramList.DeveloperId)),
+                    new SqlParameter("UserId",pub.GetInt(paramList.UserId)),
                 };
                 DataSet ds = await SqlHelper.GetDataSet("Task_Dashboard", SqlHelper.ConnectionString, CommandType.StoredProcedure, objparam);
                 var result = new { ds };
+                return Utilities.GenerateApiResponse(true, (int)MessageType.success, "", result);
+            }
+            catch (Exception ex)
+            {
+                return Utilities.GenerateApiResponse(true, (int)MessageType.error, ex.Message, null);
+            }
+        }
+        private async Task<ApiResponse> GetTask(dynamic paramList)
+        {
+            try
+            {
+                string ReportType = paramList.ReportType;
+                int UserId = paramList.UserId;
+                SqlParameter[] objparam = new SqlParameter[]
+                {
+                    new SqlParameter("Type","GetTask"),
+                    new SqlParameter("ReportType",ReportType),
+                    new SqlParameter("UserId",UserId),
+                };
+                DataSet ds = await SqlHelper.GetDataSet("Task_Dashboard", SqlHelper.ConnectionString, CommandType.StoredProcedure, objparam);
+                DataTable tblDuration = new DataTable();
+                tblDuration.Columns.Add("TaskID");
+                tblDuration.Columns.Add("Hours");
+                tblDuration.Columns.Add("Minutes");
+                tblDuration.Columns.Add("TotalMins");
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    DataTable tblData = await SqlHelper.GetDataTable("EXEC Task_GetDurationByTaskId @TaskId=" + dr["id"], SqlHelper.ConnectionString);
+                    if (tblData.Rows.Count > 0)
+                        tblDuration.Rows.Add(pub.GetInt(tblData.Rows[0]["TaskId"]), pub.GetInt(tblData.Rows[0]["Hours"]), pub.GetInt(tblData.Rows[0]["Minutes"]), pub.GetInt(tblData.Rows[0]["TotalMins"]));
+                }
+                var result = new { ds, tblDuration };
                 return Utilities.GenerateApiResponse(true, (int)MessageType.success, "", result);
             }
             catch (Exception ex)
