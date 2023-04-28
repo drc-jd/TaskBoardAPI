@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using TaskBoardAPI.Class;
 using TaskBoardAPI.Utils;
@@ -17,6 +15,7 @@ namespace TaskBoardAPI.Controllers.Projects
     [ApiController]
     public class ProjectsController : ControllerBase
     {
+        [Authorize]
         [HttpPost]
         [Route("Data")]
         public async Task<ApiResponse> Data(dynamic paramList)
