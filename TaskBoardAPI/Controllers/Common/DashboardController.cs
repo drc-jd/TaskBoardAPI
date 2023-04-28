@@ -1,19 +1,25 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Threading.Tasks;
 using TaskBoardAPI.Utils;
 
 namespace TaskBoardAPI.Controllers.Common
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class DashboardController : ControllerBase
     {
+        [HttpGet]
+        [Route("Test")]
+        public async Task<string> Test()
+        {
+            return "Testing Authorization..!";
+        }
+
         [HttpPost]
         [Route("Data")]
         public async Task<ApiResponse> Data(dynamic paramList)
