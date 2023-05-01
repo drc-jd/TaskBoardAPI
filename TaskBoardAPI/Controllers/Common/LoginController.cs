@@ -69,11 +69,13 @@ namespace TaskBoardAPI.Controllers.Common
         {
             try
             {
+                string oldHash = Utilities.GetMd5HashWithMySecurityAlgo(CurrentPassword);
+                string newHash = Utilities.GetMd5HashWithMySecurityAlgo(NewPassword);
                 SqlParameter[] objparam = new SqlParameter[]
                 {
                     new SqlParameter("UserId",UserId),
-                    new SqlParameter("CurrentPassword",CurrentPassword),
-                    new SqlParameter("NewPassword",NewPassword)
+                    new SqlParameter("CurrentPassword",oldHash),
+                    new SqlParameter("NewPassword",newHash)
                 };
                 string message = string.Empty;
                 DataTable tblData = await SqlHelper.GetDatatableSP("Task_ChangePassword", SqlHelper.ConnectionString, objparam);
