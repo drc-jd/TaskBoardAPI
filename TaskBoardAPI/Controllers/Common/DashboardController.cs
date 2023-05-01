@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 using TaskBoardAPI.Utils;
 
 namespace TaskBoardAPI.Controllers.Common
-{
-    [Authorize]
+{    
     [Route("api/[controller]")]
     [ApiController]
     public class DashboardController : ControllerBase
@@ -20,6 +19,7 @@ namespace TaskBoardAPI.Controllers.Common
             return "Testing Authorization..!";
         }
 
+        [Authorize]
         [HttpPost]
         [Route("Data")]
         public async Task<ApiResponse> Data(dynamic paramList)

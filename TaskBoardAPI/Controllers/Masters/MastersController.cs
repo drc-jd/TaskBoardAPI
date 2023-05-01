@@ -96,7 +96,7 @@ namespace TaskBoardAPI.Controllers.Masters
             try
             {
                 byte[] profileImg = paramList.profileImg;
-
+                string hash = Utilities.GetMd5HashWithMySecurityAlgo(pub.GetString(paramList.Password));
                 List<SqlParameter> objparam = new List<SqlParameter>()
                 {
                     new SqlParameter("Mode",pub.GetString(paramList.Mode)),
@@ -105,7 +105,7 @@ namespace TaskBoardAPI.Controllers.Masters
                     new SqlParameter("LastName",pub.GetString(paramList.LastName)),
                     new SqlParameter("Email",pub.GetString(paramList.Email)),
                     new SqlParameter("UserName",pub.GetString(paramList.UserName)),
-                    new SqlParameter("Password",pub.GetString(paramList.Password)),
+                    new SqlParameter("Password",hash),
                     new SqlParameter("MobileNo",pub.GetString(paramList.MobileNo)),
                     new SqlParameter("ExtNo",pub.GetString(paramList.ExtNo)),
                     new SqlParameter("Role",pub.GetString(paramList.Role)),

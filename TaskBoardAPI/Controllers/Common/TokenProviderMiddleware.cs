@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Identity;
 using System.Data;
 using TaskBoardAPI.Utils;
 using System.Data.SqlClient;
@@ -48,7 +44,6 @@ namespace TaskBoardAPI.Controllers.Common
         }
         private async System.Threading.Tasks.Task GenerateToken(HttpContext context)
         {
-            // Serialize and return the response
             string client_id = context.Request.Form["client_id"];
             string UserName = context.Request.Form["UserName"];
             string Password = context.Request.Form["Password"];
@@ -57,13 +52,13 @@ namespace TaskBoardAPI.Controllers.Common
 
             if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
             {
+                string hash = Utilities.GetMd5HashWithMySecurityAlgo(Password);
                 SqlParameter[] objparam = new SqlParameter[]
                 {
                     new SqlParameter("UserName",UserName),
-                    new SqlParameter("Password",Password)
+                    new SqlParameter("Password",hash)
                 };
                 tblData = await SqlHelper.GetDatatableSP("usp_TaskUserLogin", SqlHelper.ConnectionString, objparam);
-
             }
 
             if (tblData == null || tblData.Rows.Count == 0)
@@ -74,8 +69,7 @@ namespace TaskBoardAPI.Controllers.Common
                 return;
             }
 
-            var response = GetLoginToken.Execute(tblData,client_id);
-            //var response = new { };
+            var response = GetLoginToken.Execute(tblData, client_id);
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonConvert.SerializeObject(response, _serializerSettings));
         }
