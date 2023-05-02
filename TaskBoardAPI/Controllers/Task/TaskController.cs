@@ -12,12 +12,12 @@ using TaskBoardAPI.Class;
 using TaskBoardAPI.Utils;
 
 namespace TaskBoardAPI.Controllers.Task
-{
-    [Authorize]
+{    
     [Route("api/[controller]")]
     [ApiController]
     public class TaskController : ControllerBase
     {
+        [Authorize]
         [HttpPost]
         [Route("Data")]
         public async Task<ApiResponse> Data(dynamic paramList)
@@ -220,6 +220,8 @@ namespace TaskBoardAPI.Controllers.Task
                 return Utilities.GenerateApiResponse(true, (int)MessageType.error, ex.Message, null);
             }
         }
+
+        [Authorize]
         [HttpPost]
         [Route("Upload/{TaskId}/{Role}/{CSrNo}")]
         public async Task<ApiResponse> UploadFile(List<IFormFile> files, string TaskId, string Role, int CSrNo)
@@ -257,6 +259,7 @@ namespace TaskBoardAPI.Controllers.Task
                 return Utilities.GenerateApiResponse(true, (int)MessageType.error, ex.Message, null);
             }
         }
+
         [HttpGet]
         [Route("Download/{FileName}")]
         public async Task<IActionResult> Download(string FileName)
