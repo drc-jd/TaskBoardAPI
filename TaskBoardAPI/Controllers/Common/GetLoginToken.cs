@@ -3,10 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using TaskBoardAPI.Class;
 using TaskBoardAPI.Utils;
 
@@ -35,7 +33,8 @@ namespace TaskBoardAPI.Controllers.Common
 
             var claims = new List<Claim>()
             {
-                new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now).ToUniversalTime().ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
+                new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now).ToUniversalTime().ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),
+                new Claim(ClaimTypes.Role,tblData.Rows[0]["role"].ToString() )
             };
 
             var jwt = new JwtSecurityToken(
