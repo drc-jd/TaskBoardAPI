@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TaskBoardAPI.Utils;
 
 namespace TaskBoardAPI.Controllers.Common
-{    
+{
     [Route("api/[controller]")]
     [ApiController]
     public class DashboardController : ControllerBase
@@ -35,6 +35,9 @@ namespace TaskBoardAPI.Controllers.Common
                     case "GETTASK":
                         response = await GetTask(paramList);
                         break;
+                    case "REOPENTASK":
+                        response = await ReOpenTask(paramList);
+                        break;
                 }
                 return response;
             }
@@ -56,6 +59,27 @@ namespace TaskBoardAPI.Controllers.Common
                 DataSet ds = await SqlHelper.GetDataSet("Task_Dashboard", SqlHelper.ConnectionString, CommandType.StoredProcedure, objparam);
                 var result = new { ds };
                 return Utilities.GenerateApiResponse(true, (int)MessageType.success, "", result);
+            }
+            catch (Exception ex)
+            {
+                return Utilities.GenerateApiResponse(true, (int)MessageType.error, ex.Message, null);
+            }
+        }
+        private async Task<ApiResponse> ReOpenTask(dynamic paramList)
+        {
+            try
+            {
+                SqlParameter[] objparam = new SqlParameter[]
+                {
+                    new SqlParameter("Type","ReOpenTask"),
+                    new SqlParameter("SrNo",pub.GetInt(paramList.SrNo)),
+                };
+                string message = string.Empty;
+                DataTable dt = await SqlHelper.GetDatatableSP("Task_Dashboard", SqlHelper.ConnectionString, objparam);
+                if (dt.Rows[0]["Result"].ToString().ToUpper() == "SUCCESS")
+                    return Utilities.GenerateApiResponse(true, (int)MessageType.success, "Task successfully Re-Opened..!", null);
+                else
+                    return Utilities.GenerateApiResponse(true, (int)MessageType.error, dt.Rows[0]["Result"].ToString(), null);
             }
             catch (Exception ex)
             {
