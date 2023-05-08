@@ -47,6 +47,7 @@ namespace TaskBoardAPI.Controllers.Common
             string client_id = context.Request.Form["client_id"];
             string UserName = context.Request.Form["UserName"];
             string Password = context.Request.Form["Password"];
+            string Ecode = (context.Request.Form["Ecode"]);
             string clientId = context.Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
             DataTable tblData = new DataTable();
@@ -61,6 +62,10 @@ namespace TaskBoardAPI.Controllers.Common
                 };
                 if (clientId.Equals("::1"))
                     tblData = await SqlHelper.GetDataTable("Select u.UserId, u.UserName, u.FirstName, u.LastName,ISNULL(u.ProfileImg, '') ProfileImg,u.Role From Task_UserList u  Where u.UserName = '" + UserName + "'", SqlHelper.ConnectionString);
+                else if (pub.GetInt(Ecode) != 0)
+                {
+                    tblData = await SqlHelper.GetDataTable("Select u.UserId, u.UserName, u.FirstName, u.LastName,ISNULL(u.ProfileImg, '') ProfileImg,u.Role From Task_UserList u  Where u.Ecode = '" + Ecode + "'", SqlHelper.ConnectionString);
+                }
                 else
                     tblData = await SqlHelper.GetDatatableSP("usp_TaskUserLogin", SqlHelper.ConnectionString, objparam);
             }
