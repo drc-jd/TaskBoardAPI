@@ -47,7 +47,7 @@ namespace TaskBoardAPI.Controllers.Common
             string client_id = context.Request.Form["client_id"];
             string UserName = context.Request.Form["UserName"];
             string Password = context.Request.Form["Password"];
-            string Ecode = (context.Request.Form["Ecode"]);
+            string Guid = (context.Request.Form["Id"]);
             string clientId = context.Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
             DataTable tblData = new DataTable();
@@ -60,12 +60,12 @@ namespace TaskBoardAPI.Controllers.Common
                     new SqlParameter("UserName",UserName),
                     new SqlParameter("Password",hash)
                 };
-                if (clientId.Equals("::1"))
-                    tblData = await SqlHelper.GetDataTable("Select u.UserId, u.UserName, u.FirstName, u.LastName,ISNULL(u.ProfileImg, '') ProfileImg,u.Role From Task_UserList u  Where u.UserName = '" + UserName + "'", SqlHelper.ConnectionString);
-                else if (pub.GetInt(Ecode) != 0)
+                if (pub.GetString(Guid) != "")
                 {
-                    tblData = await SqlHelper.GetDataTable("Select u.UserId, u.UserName, u.FirstName, u.LastName,ISNULL(u.ProfileImg, '') ProfileImg,u.Role From Task_UserList u  Where u.Ecode = '" + Ecode + "'", SqlHelper.ConnectionString);
+                    tblData = await SqlHelper.GetDataTable("SELECT UserId, UserName, FirstName, LastName, ISNULL(ProfileImg, '') AS ProfileImg, Role FROM Task_UserList AS u WHERE (Guid = '" + Guid + "')", SqlHelper.ConnectionString);
                 }
+                else if (clientId.Equals("::1"))
+                    tblData = await SqlHelper.GetDataTable("Select u.UserId, u.UserName, u.FirstName, u.LastName,ISNULL(u.ProfileImg, '') ProfileImg,u.Role From Task_UserList u  Where u.UserName = '" + UserName + "'", SqlHelper.ConnectionString);
                 else
                     tblData = await SqlHelper.GetDatatableSP("usp_TaskUserLogin", SqlHelper.ConnectionString, objparam);
             }
